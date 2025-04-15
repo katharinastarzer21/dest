@@ -20,8 +20,7 @@ html:
 
 # Lade zusätzliche Sphinx-Erweiterungen
 sphinx:
-  extra_extensions:
-    - _extensions.notebook_gallery_generator
+  extra_extensions: []
 
 # Aktiviere MyST Parser (für Markdown)
 parse:
