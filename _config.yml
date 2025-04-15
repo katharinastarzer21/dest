@@ -1,0 +1,34 @@
+
+title: DestinE DataLake Lab
+author: Destination Earth Team
+logo: _static/dedl-logo.png
+favicon: _static/favicon.ico
+only_build_toc_files: true
+
+repository:
+  url: https://github.com/katharinastarzer21/DestinE-DataLake-Lab
+  branch: main
+  path_to_book: ""
+
+html:
+  use_repository_button: true
+  use_issues_button: true
+  use_edit_page_button: false
+  home_page_in_navbar: true
+  extra_navbar: ""
+  extra_footer: "<p>Powered by Destination Earth &copy; 2025</p>"
+  baseurl: ""
+  google_analytics_id: ""
+
+# Lade zusätzliche Sphinx-Erweiterungen
+sphinx:
+  extra_extensions:
+    - _extensions.notebook_gallery_generator
+
+# Aktiviere MyST Parser (für Markdown)
+parse:
+  myst_enable_extensions:
+    - deflist
+    - dollarmath
+    - colon_fence
+    - html_image
