@@ -20,7 +20,9 @@ jobs:
         run: pip install jupyter-book
 
       - name: Build the book
-        run: jupyter-book build .
+        run: |
+            export PYTHONPATH=$PYTHONPATH:$(pwd)
+            jupyter-book build .
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
