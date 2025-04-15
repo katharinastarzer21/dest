@@ -1,12 +1,10 @@
 
 title: DestinE DataLake Lab
 author: Destination Earth Team
-logo: _static/dedl-logo.png
-favicon: _static/favicon.ico
 only_build_toc_files: true
 
 repository:
-  url: https://github.com/katharinastarzer21/DestinE-DataLake-Lab
+  url: https://github.com/katharinastarzer21/DestinE
   branch: main
   path_to_book: ""
 
