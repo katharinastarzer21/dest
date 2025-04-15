@@ -8,15 +8,15 @@ repository:
   branch: main
   path_to_book: ""
 
+
+
+only_build_toc_files: true
+
 html:
   use_repository_button: true
-  use_issues_button: true
-  use_edit_page_button: false
-  home_page_in_navbar: true
-  extra_navbar: ""
-  extra_footer: "<p>Powered by Destination Earth &copy; 2025</p>"
-  baseurl: ""
-  google_analytics_id: ""
+
+execute:
+  execute_notebooks: "off"
 
 # Lade zusätzliche Sphinx-Erweiterungen
 sphinx:
