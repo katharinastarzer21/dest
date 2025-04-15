@@ -21,9 +21,9 @@ html:
 execute:
   execute_notebooks: "off"
 
-# Lade zusätzliche Sphinx-Erweiterungen
 sphinx:
-  extra_extensions: []
+  extra_extensions:
+    - _extensions.notebook_gallery_generator
 
 # Aktiviere MyST Parser (für Markdown)
 parse:
