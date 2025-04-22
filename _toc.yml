@@ -1,0 +1,8 @@
+format: jb-book
+root: index
+
+chapters:
+  - file: HDA/README
+  - file: HOOK/README
+  - file: STACK/README
+

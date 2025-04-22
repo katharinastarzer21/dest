@@ -35,6 +35,16 @@ extensions = [
     "notebook_gallery_generator",
 ]
 
+myst_enable_extensions = [
+    "amsmath",
+    "colon_fence",
+    "deflist",
+    "html_image",
+    "dollarmath",
+]
+
+nb_execution_mode = 'off'
+
 # Define what extensions will parse which kind of source file
 source_suffix = {
     ".ipynb": "myst-nb",
