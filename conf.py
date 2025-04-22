@@ -38,8 +38,7 @@ extensions = [
 # Define what extensions will parse which kind of source file
 source_suffix = {
     ".ipynb": "myst-nb",
-    ".myst": "myst-nb",
-    ".md": "markdown"
+    ".myst": "myst-nb"
 }
 
 templates_path = ['_templates']
@@ -71,6 +70,10 @@ html_theme_options = {
       #"text": "Destination Earth",
       "alt_text": "Destination Earth",
    },
+ "navigation_with_keys": True,
+ "show_nav_level": 2,          
+ "navigation_depth": 2,       
+ "collapse_navigation": False, 
 
   "icon_links": [
         {
