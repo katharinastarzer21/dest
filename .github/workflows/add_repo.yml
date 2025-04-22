@@ -16,17 +16,16 @@ jobs:
     - name: Install PyYAML
       run: pip install pyyaml
 
-    - name: Extract and Update notebook_gallery.yaml
+    - name: Extract and Update notebook_gallery.yaml (Fix 2)
       run: |
         echo "Reading issue body..."
         ISSUE_BODY="${{ github.event.issue.body }}"
-
         echo "$ISSUE_BODY" > issue_body.txt
+        echo "ISSUE_BODY:"
+        cat issue_body.txt
 
-        # Extraktion in Python
         python3 <<EOF
         import yaml
-        import re
 
         # Lade YAML
         with open('notebook_gallery.yaml') as f:
@@ -36,18 +35,43 @@ jobs:
         with open('issue_body.txt') as f:
             body = f.read()
 
-        def extract_value(label):
-            pattern = rf"{label}\*\*\n(.*?)\n"
-            match = re.search(pattern, body)
-            return match.group(1).strip() if match else ""
+        print("Full Issue Body:")
+        print(body)
 
-        repo_url = extract_value("Repository URL")
-        title = extract_value("Cookbook Title")
-        description = extract_value("Short Description")
-        thumbnail = extract_value("Thumbnail Image URL")
-        root_path = extract_value("Root Path Name")
+        # Zeilenweise parsen ohne Regex
+        fields = {
+            "Repository URL": "",
+            "Cookbook Title": "",
+            "Short Description": "",
+            "Thumbnail Image URL": "",
+            "Root Path Name": ""
+        }
 
-        print(f"Parsed: {repo_url}, {title}, {description}, {thumbnail}, {root_path}")
+        lines = body.splitlines()
+
+        current_label = None
+        for line in lines:
+            line = line.strip()
+            if line in fields:
+                current_label = line
+            elif current_label and line:
+                fields[current_label] = line
+                current_label = None
+
+        repo_url = fields["Repository URL"]
+        title = fields["Cookbook Title"]
+        description = fields["Short Description"]
+        thumbnail = fields["Thumbnail Image URL"]
+        root_path = fields["Root Path Name"]
+
+        print(f"Repo URL: {repo_url}")
+        print(f"Title: {title}")
+        print(f"Description: {description}")
+        print(f"Thumbnail: {thumbnail}")
+        print(f"Root Path: {root_path}")
+
+        if not root_path:
+            raise ValueError("Root Path konnte nicht extrahiert werden – Abbruch.")
 
         gallery['domains'][root_path] = {
             'title': title,
@@ -60,6 +84,7 @@ jobs:
 
         with open('notebook_gallery.yaml', 'w') as f:
             yaml.dump(gallery, f, sort_keys=False)
+
         EOF
 
     - name: Commit updated YAML
