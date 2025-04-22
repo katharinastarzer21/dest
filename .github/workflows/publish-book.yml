@@ -1,31 +1,33 @@
-name: Build and Deploy Jupyter Book
+name: Deploy Sphinx to GitHub Pages
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
 
 jobs:
-  build:
+  build-deploy:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout
+      - name: Checkout Repo
         uses: actions/checkout@v3
 
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: 3.9
+          python-version: '3.11'
 
-      - name: Install Jupyter Book
-        run: pip install jupyter-book
-
-      - name: Build the book
+      - name: Install Dependencies
         run: |
-            export PYTHONPATH=$PYTHONPATH:$(pwd)
-            jupyter-book build .
+          pip install sphinx myst-parser nbsphinx sphinx-book-theme
+
+      - name: Build HTML
+        run: |
+          sphinx-build -b html . _build/html
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: _build/html
+          publish_dir: ./_build/html
