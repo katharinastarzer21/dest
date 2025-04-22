@@ -39,6 +39,7 @@ extensions = [
 source_suffix = {
     ".ipynb": "myst-nb",
     ".myst": "myst-nb",
+    ".md": "markdown"
 }
 
 templates_path = ['_templates']
