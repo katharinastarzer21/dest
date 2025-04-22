@@ -32,7 +32,7 @@ extensions = [
     "sphinx.ext.githubpages",
     "myst_nb",
     "sphinx_design",
-    "_extensions/notebook_gallery_generator.py",
+    "notebook_gallery_generator",
 ]
 
 # Define what extensions will parse which kind of source file
