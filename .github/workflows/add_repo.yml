@@ -2,7 +2,7 @@ name: Add Repository to Gallery
 
 on:
   issues:
-    types: [opened]
+    types: [opened, labeled]
 
 jobs:
   process-request:
