@@ -38,8 +38,8 @@ jobs:
         print("Full Issue Body:")
         print(body)
 
-        # Zeilenweise parsen ohne Regex
-        fields = {
+                # Zeilenweise parsen ohne Regex
+                fields = {
             "Repository URL": "",
             "Cookbook Title": "",
             "Short Description": "",
@@ -51,7 +51,7 @@ jobs:
 
         current_label = None
         for line in lines:
-            line = line.strip()
+            line = line.strip().lstrip("#").strip()  # Entferne Markdown #
             if line in fields:
                 current_label = line
             elif current_label and line:
@@ -72,7 +72,6 @@ jobs:
 
         if not root_path:
             raise ValueError("Root Path konnte nicht extrahiert werden – Abbruch.")
-
         gallery['domains'][root_path] = {
             'title': title,
             'branch': 'main',
