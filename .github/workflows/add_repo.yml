@@ -1,0 +1,52 @@
+name: Add Repository to Gallery
+
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  process-request:
+    if: contains(github.event.issue.labels.*.name, 'add-repo')
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout main repository
+      uses: actions/checkout@v3
+
+    - name: Install PyYAML
+      run: pip install pyyaml
+
+    - name: Extract and Update notebook_gallery.yaml
+      run: |
+        echo "REPO_URL=$(echo '${{ github.event.issue.body }}' | grep -oP '(?<=Repository URL\*\*\n).*')" >> $GITHUB_ENV
+        echo "TITLE=$(echo '${{ github.event.issue.body }}' | grep -oP '(?<=Cookbook Title\*\*\n).*')" >> $GITHUB_ENV
+        echo "DESCRIPTION=$(echo '${{ github.event.issue.body }}' | grep -oP '(?<=Short Description\*\*\n).*')" >> $GITHUB_ENV
+        echo "THUMBNAIL=$(echo '${{ github.event.issue.body }}' | grep -oP '(?<=Thumbnail Image URL\*\*\n).*')" >> $GITHUB_ENV
+        echo "ROOT_PATH=$(echo '${{ github.event.issue.body }}' | grep -oP '(?<=Root Path Name\*\*\n).*')" >> $GITHUB_ENV
+
+        python3 <<EOF
+        import yaml
+
+        with open('notebook_gallery.yaml') as f:
+            gallery = yaml.safe_load(f)
+
+        gallery['domains'][f"{'$ROOT_PATH'}"] = {
+            'title': f"{'$TITLE'}",
+            'branch': 'main',
+            'root_path': f"{'$ROOT_PATH'}",
+            'description': f"{'$DESCRIPTION'}",
+            'thumbnail': f"{'$THUMBNAIL'}",
+            'url': f"https://destination-earth.github.io/DestinE-DataLake-Lab/{'$ROOT_PATH'}/README.html"
+        }
+
+        with open('notebook_gallery.yaml', 'w') as f:
+            yaml.dump(gallery, f, sort_keys=False)
+        EOF
+
+    - name: Commit updated YAML
+      run: |
+        git config --global user.name 'github-actions'
+        git config --global user.email 'actions@github.com'
+        git add notebook_gallery.yaml
+        git commit -m "Added $ROOT_PATH to notebook gallery via issue automation"
+        git push origin main

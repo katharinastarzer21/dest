@@ -1,0 +1,45 @@
+name: "Add new Cookbook Repository"
+description: "Request to add a new notebook repository to the Gallery"
+title: "[Cookbook] Add: <REPO-NAME>"
+labels: ["add-repo"]
+body:
+  - type: input
+    id: repo_url
+    attributes:
+      label: "Repository URL"
+      description: "Public GitHub URL of your repository"
+      placeholder: "https://github.com/username/repo-name"
+    validations:
+      required: true
+  - type: input
+    id: title
+    attributes:
+      label: "Cookbook Title"
+      description: "Title to display in the Gallery"
+      placeholder: "My Awesome Notebooks"
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: "Short Description"
+      description: "Brief description of your repository"
+      placeholder: "This repository contains notebooks about..."
+    validations:
+      required: true
+  - type: input
+    id: thumbnail
+    attributes:
+      label: "Thumbnail Image URL"
+      description: "Link to an image (ideal 600x400 px)"
+      placeholder: "https://example.com/image.jpg"
+    validations:
+      required: true
+  - type: input
+    id: root_path
+    attributes:
+      label: "Root Path Name"
+      description: "The folder name under which your content will appear (no spaces, e.g. MYREPO)"
+      placeholder: "MYREPO"
+    validations:
+      required: true
