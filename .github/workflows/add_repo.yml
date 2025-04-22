@@ -18,25 +18,44 @@ jobs:
 
     - name: Extract and Update notebook_gallery.yaml
       run: |
-        echo "REPO_URL=$(echo '${{ github.event.issue.body }}' | grep -oP '(?<=Repository URL\*\*\n).*')" >> $GITHUB_ENV
-        echo "TITLE=$(echo '${{ github.event.issue.body }}' | grep -oP '(?<=Cookbook Title\*\*\n).*')" >> $GITHUB_ENV
-        echo "DESCRIPTION=$(echo '${{ github.event.issue.body }}' | grep -oP '(?<=Short Description\*\*\n).*')" >> $GITHUB_ENV
-        echo "THUMBNAIL=$(echo '${{ github.event.issue.body }}' | grep -oP '(?<=Thumbnail Image URL\*\*\n).*')" >> $GITHUB_ENV
-        echo "ROOT_PATH=$(echo '${{ github.event.issue.body }}' | grep -oP '(?<=Root Path Name\*\*\n).*')" >> $GITHUB_ENV
+        echo "Reading issue body..."
+        ISSUE_BODY="${{ github.event.issue.body }}"
 
+        echo "$ISSUE_BODY" > issue_body.txt
+
+        # Extraktion in Python
         python3 <<EOF
         import yaml
+        import re
 
+        # Lade YAML
         with open('notebook_gallery.yaml') as f:
             gallery = yaml.safe_load(f)
 
-        gallery['domains'][f"{'$ROOT_PATH'}"] = {
-            'title': f"{'$TITLE'}",
+        # Lese Issue Body
+        with open('issue_body.txt') as f:
+            body = f.read()
+
+        def extract_value(label):
+            pattern = rf"{label}\*\*\n(.*?)\n"
+            match = re.search(pattern, body)
+            return match.group(1).strip() if match else ""
+
+        repo_url = extract_value("Repository URL")
+        title = extract_value("Cookbook Title")
+        description = extract_value("Short Description")
+        thumbnail = extract_value("Thumbnail Image URL")
+        root_path = extract_value("Root Path Name")
+
+        print(f"Parsed: {repo_url}, {title}, {description}, {thumbnail}, {root_path}")
+
+        gallery['domains'][root_path] = {
+            'title': title,
             'branch': 'main',
-            'root_path': f"{'$ROOT_PATH'}",
-            'description': f"{'$DESCRIPTION'}",
-            'thumbnail': f"{'$THUMBNAIL'}",
-            'url': f"https://destination-earth.github.io/DestinE-DataLake-Lab/{'$ROOT_PATH'}/README.html"
+            'root_path': root_path,
+            'description': description,
+            'thumbnail': thumbnail,
+            'url': f"https://destination-earth.github.io/DestinE-DataLake-Lab/{root_path}/README.html"
         }
 
         with open('notebook_gallery.yaml', 'w') as f:
@@ -48,5 +67,5 @@ jobs:
         git config --global user.name 'github-actions'
         git config --global user.email 'actions@github.com'
         git add notebook_gallery.yaml
-        git commit -m "Added $ROOT_PATH to notebook gallery via issue automation"
+        git commit -m "Added new cookbook via issue automation"
         git push origin main
