@@ -26,3 +26,10 @@ domains:
       \ their applications \nand apply on the DestinE Data Lake data.\n"
     thumbnail: https://platform.destine.eu/wp-content/uploads/2024/03/hook-de-01.jpg
     url: https://destination-earth.github.io/DestinE-DataLake-Lab/HOOK/README.html
+  ? ''
+  : title: ''
+    branch: main
+    root_path: ''
+    description: ''
+    thumbnail: ''
+    url: https://destination-earth.github.io/DestinE-DataLake-Lab//README.html
