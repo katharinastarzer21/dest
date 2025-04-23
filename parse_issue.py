@@ -52,7 +52,7 @@ gallery['domains'][root_path] = {
     'root_path': root_path,
     'description': description,
     'thumbnail': thumbnail,
-    'url': f"https://destination-earth.github.io/DestinE-DataLake-Lab/{root_path}/README.html"
+    'url': f"{repo_url}/README.html"
 }
 
 with open('notebook_gallery.yaml', 'w') as f:
