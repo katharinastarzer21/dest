@@ -39,7 +39,7 @@ jobs:
         print(body)
 
                 # Zeilenweise parsen ohne Regex
-                fields = {
+            fields = {
             "Repository URL": "",
             "Cookbook Title": "",
             "Short Description": "",
