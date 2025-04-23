@@ -1,0 +1,59 @@
+import yaml
+
+# Lade YAML
+with open('notebook_gallery.yaml') as f:
+    gallery = yaml.safe_load(f)
+
+# Lese Issue Body
+with open('issue_body.txt') as f:
+    body = f.read()
+
+print("Full Issue Body:")
+print(body)
+
+# Zeilenweise parsen mit Markdown Support
+fields = {
+    "Repository URL": "",
+    "Cookbook Title": "",
+    "Short Description": "",
+    "Thumbnail Image URL": "",
+    "Root Path Name": ""
+}
+
+lines = body.splitlines()
+
+current_label = None
+for line in lines:
+    line = line.strip().lstrip("#").strip()  # Entferne Markdown #
+    if line in fields:
+        current_label = line
+    elif current_label and line:
+        fields[current_label] = line
+        current_label = None
+
+repo_url = fields["Repository URL"]
+title = fields["Cookbook Title"]
+description = fields["Short Description"]
+thumbnail = fields["Thumbnail Image URL"]
+root_path = fields["Root Path Name"]
+
+print(f"Repo URL: {repo_url}")
+print(f"Title: {title}")
+print(f"Description: {description}")
+print(f"Thumbnail: {thumbnail}")
+print(f"Root Path: {root_path}")
+
+if not root_path:
+    raise ValueError("Root Path konnte nicht extrahiert werden – Abbruch.")
+
+gallery['domains'][root_path] = {
+    'title': title,
+    'branch': 'main',
+    'root_path': root_path,
+    'description': description,
+    'thumbnail': thumbnail,
+    'url': f"https://destination-earth.github.io/DestinE-DataLake-Lab/{root_path}/README.html"
+}
+
+with open('notebook_gallery.yaml', 'w') as f:
+    yaml.dump(gallery, f, sort_keys=False)
