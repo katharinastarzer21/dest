@@ -26,10 +26,4 @@ domains:
       \ their applications \nand apply on the DestinE Data Lake data.\n"
     thumbnail: https://platform.destine.eu/wp-content/uploads/2024/03/hook-de-01.jpg
     url: https://destination-earth.github.io/DestinE-DataLake-Lab/HOOK/README.html
-  BSPTEST:
-    title: My awesome Cookbook
-    branch: main
-    root_path: BSPTEST
-    description: test for automatisation
-    thumbnail: https://github.com/destination-earth/DestinE-DataLake-Lab/blob/main/img/EUMETSAT-icon.png
-    url: https://destination-earth.github.io/DestinE-DataLake-Lab/BSPTEST/README.html
+  
