@@ -31,11 +31,10 @@ jobs:
     - name: Install Sphinx
       run: pip install sphinx
   
-    - name: Build HTML from Cookbook with Sphinx
+    - name: Build HTML from Cookbook (with global conf.py)
       run: |
-          cd cookbooks/$ROOT_PATH
-          sphinx-build -b html . ../../_build/html/$ROOT_PATH -c
-  
+        sphinx-build -b html cookbooks/$ROOT_PATH _build/html/$ROOT_PATH -c .
+
     - name: Commit updated YAML
       run: |
         git config --global user.name 'github-actions'
