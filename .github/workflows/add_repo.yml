@@ -27,6 +27,9 @@ jobs:
     - name: Clone new Cookbook Repository
       run: |
           git clone $REPO_URL cookbooks/$ROOT_PATH
+
+    - name: Install Sphinx
+      run: pip install sphinx
   
     - name: Build HTML from Cookbook with Sphinx
       run: |
