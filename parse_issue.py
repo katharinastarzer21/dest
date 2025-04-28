@@ -57,3 +57,8 @@ gallery['domains'][root_path] = {
 
 with open('notebook_gallery.yaml', 'w') as f:
     yaml.dump(gallery, f, sort_keys=False)
+
+import os
+with open(os.environ['GITHUB_ENV'], 'a') as env_file:
+    env_file.write(f"REPO_URL={repo_url}\n")
+    env_file.write(f"ROOT_PATH={root_path}\n")
