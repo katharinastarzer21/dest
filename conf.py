@@ -33,7 +33,6 @@ extensions = [
     "myst_nb",
     "sphinx_design",
     "notebook_gallery_generator",
-    'myst_parser'
 ]
 
 myst_enable_extensions = [
