@@ -1,6 +1,6 @@
 name: Add Repository to Gallery
 
-on:
+'on':
   issues:
     types: [opened, labeled]
 
