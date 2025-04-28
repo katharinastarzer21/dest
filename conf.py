@@ -33,6 +33,7 @@ extensions = [
     "myst_nb",
     "sphinx_design",
     "notebook_gallery_generator",
+    'myst_parser'
 ]
 
 myst_enable_extensions = [
@@ -104,3 +105,5 @@ myst_enable_extensions = ["amsmath", "colon_fence", "deflist", "html_image"]
 myst_url_schemes = ["http", "https", "mailto"]
 nb_execution_mode = 'off'
 myst_heading_anchors = 3
+
+master_doc = 'index'
