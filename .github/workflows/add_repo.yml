@@ -34,7 +34,7 @@ jobs:
     - name: Build HTML from Cookbook with Sphinx
       run: |
           cd cookbooks/$ROOT_PATH
-          sphinx-build -b html . ../../_build/html/$ROOT_PATH
+          sphinx-build -b html . ../../_build/html/$ROOT_PATH -c
   
     - name: Commit updated YAML
       run: |
