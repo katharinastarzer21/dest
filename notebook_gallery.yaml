@@ -33,3 +33,10 @@ domains:
     description: test for automatisation
     thumbnail: https://github.com/destination-earth/DestinE-DataLake-Lab/blob/main/img/EUMETSAT-icon.png
     url: https://katharinastarzer21.github.io/DestinE/_build/html/BSPTEST/README.html
+  COOKBOOKBSP:
+    title: tests_Notebooks
+    branch: main
+    root_path: COOKBOOKBSP
+    description: testing automatisation
+    thumbnail: https://github.com/katharinastarzer21/repository_bsp/blob/main/STACK_test/img/DEDL_Dask_multicloud.png
+    url: https://katharinastarzer21.github.io/DestinE/_build/html/COOKBOOKBSP/README.html
