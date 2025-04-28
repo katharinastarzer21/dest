@@ -43,6 +43,6 @@ jobs:
         git add notebook_gallery.yaml
         git add -f _build/html/$ROOT_PATH
         git commit -m "Added new cookbook and built HTML"
-        git push origin main
+        git push -f origin main
 
 
