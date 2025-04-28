@@ -29,8 +29,8 @@ jobs:
           git clone $REPO_URL cookbooks/$ROOT_PATH
 
     - name: Install Sphinx
-      run: pip install sphinx
-  
+      run: pip install sphinx myst-parser nbsphinx sphinx-book-theme sphinx-design myst-nb pyyaml ghp-import
+
     - name: Build HTML from Cookbook (with global conf.py)
       run: |
         sphinx-build -b html cookbooks/$ROOT_PATH _build/html/$ROOT_PATH -c .
