@@ -25,9 +25,11 @@ jobs:
       run: |
         python3 parse_issue.py
 
+    - name: Create cookbooks directory
+      run: mkdir -p cookbooks
+
     - name: Clone new Cookbook Repository
-      run: |
-        git clone $REPO_URL cookbooks/$ROOT_PATH
+      run: git clone $REPO_URL cookbooks/$ROOT_PATH --depth 1
 
     - name: Ensure README exists
       run: |
