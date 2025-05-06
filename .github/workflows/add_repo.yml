@@ -31,10 +31,10 @@ jobs:
     - name: Install Sphinx
       run: pip install sphinx myst-parser nbsphinx sphinx-book-theme sphinx-design myst-nb pyyaml ghp-import
 
-    - name: Build HTML from Cookbook (with global conf.py)
+    - name: Build HTML from Cookbook (into /docs for GitHub Pages)
       run: |
-        sphinx-build -b html $ROOT_PATH _build/html/$ROOT_PATH -c .
-
+        sphinx-build -b html $ROOT_PATH docs -c .
+    
 
     - name: Commit updated YAML and Built HTML
       run: |
