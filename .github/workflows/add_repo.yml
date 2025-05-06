@@ -35,7 +35,7 @@ jobs:
 
     - name: Build Cookbook HTML into docs/$ROOT_PATH
       run: |
-        sphinx-build -b html $ROOT_PATH docs/$ROOT_PATH -c $ROOT_PATH
+        sphinx-build -b html $ROOT_PATH docs/$ROOT_PATH -c .
 
     - name: Rename README.html to index.html (for GitHub Pages)
       run: |
