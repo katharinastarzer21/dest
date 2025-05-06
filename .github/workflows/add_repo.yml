@@ -13,43 +13,54 @@ jobs:
       - name: Checkout main repository
         uses: actions/checkout@v3
 
-      - name: Install PyYAML
-        run: pip install pyyaml
+      - name: Install dependencies
+        run: pip install pyyaml sphinx myst-parser nbsphinx sphinx-book-theme myst-nb sphinx-design ghp-import
 
       - name: Save Issue Body to File
-        run: |
-          echo "${{ github.event.issue.body }}" > issue_body.txt
+        run: echo "${{ github.event.issue.body }}" > issue_body.txt
 
-      - name: Parse Issue and Export Variables
-        id: vars
+      - name: Parse issue and export variables
+        id: parse
         run: |
-          python3 parse_issue.py  # setzt $REPO_URL und $ROOT_PATH als Umgebungsvariablen
-          echo "REPO_URL=$(yq '.repo_url' issue_body.txt)" >> $GITHUB_ENV
-          echo "ROOT_PATH=$(yq '.root_path' issue_body.txt)" >> $GITHUB_ENV
+          echo "REPO_URL=$(grep repo_url issue_body.txt | cut -d ':' -f2- | xargs)" >> $GITHUB_ENV
+          echo "ROOT_PATH=$(grep root_path issue_body.txt | cut -d ':' -f2- | xargs)" >> $GITHUB_ENV
+          echo "TITLE=$(grep title issue_body.txt | cut -d ':' -f2- | xargs)" >> $GITHUB_ENV
+          echo "DESCRIPTION=$(grep description issue_body.txt | cut -d ':' -f2- | xargs)" >> $GITHUB_ENV
+          echo "THUMBNAIL=$(grep thumbnail issue_body.txt | cut -d ':' -f2- | xargs)" >> $GITHUB_ENV
 
-      - name: Clone new Cookbook Repository
+      - name: Clone the new Cookbook
         run: git clone $REPO_URL $ROOT_PATH
 
-      - name: Install Sphinx and Plugins
+      - name: Verify conf.py exists
         run: |
-          pip install sphinx myst-parser nbsphinx sphinx-book-theme \
-                      sphinx-design myst-nb pyyaml ghp-import
+          if [ ! -f "$ROOT_PATH/conf.py" ]; then
+            echo "❌ conf.py not found in $ROOT_PATH"
+            exit 1
+          fi
 
-      - name: Build Cookbook HTML into docs/$ROOT_PATH
-        run: |
-          sphinx-build -b html $ROOT_PATH docs/$ROOT_PATH -c .
+      - name: Build HTML with Sphinx into docs/$ROOT_PATH
+        run: sphinx-build -b html $ROOT_PATH docs/$ROOT_PATH -c $ROOT_PATH
 
-      - name: Rename README.html to index.html (for GitHub Pages)
+      - name: Rename README.html to index.html
         run: |
           if [ -f docs/$ROOT_PATH/README.html ]; then
             mv docs/$ROOT_PATH/README.html docs/$ROOT_PATH/index.html
           fi
 
-      - name: Add .nojekyll to disable Jekyll
-        run: |
-          touch docs/.nojekyll
+      - name: Add .nojekyll
+        run: touch docs/.nojekyll
 
-      - name: Commit and Push Built HTML and Gallery Update
+      - name: Update notebook_gallery.yaml
+        run: |
+          echo "$ROOT_PATH:" >> notebook_gallery.yaml
+          echo "  title: $TITLE" >> notebook_gallery.yaml
+          echo "  branch: main" >> notebook_gallery.yaml
+          echo "  root_path: $ROOT_PATH" >> notebook_gallery.yaml
+          echo "  description: $DESCRIPTION" >> notebook_gallery.yaml
+          echo "  thumbnail: $THUMBNAIL" >> notebook_gallery.yaml
+          echo "  url: https://katharinastarzer21.github.io/DestinE/$ROOT_PATH/index.html" >> notebook_gallery.yaml
+
+      - name: Commit and Push
         run: |
           git config --global user.name "github-actions"
           git config --global user.email "actions@github.com"
@@ -59,6 +70,6 @@ jobs:
           if git diff --cached --quiet; then
             echo "No changes to commit."
           else
-            git commit -m "Added new cookbook: $ROOT_PATH"
-            git push origin main
+            git commit -m "Add new cookbook: $ROOT_PATH"
+            git push
           fi
