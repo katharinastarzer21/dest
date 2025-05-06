@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Repo
+      - name: Checkout Repository
         uses: actions/checkout@v3
 
       - name: Set up Python
@@ -19,22 +19,22 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Install Dependencies
+      - name: Install Python Dependencies
         run: |
           pip install -r requirements.txt
 
-      - name: Build HTML into docs/
+      - name: Build Sphinx HTML into /docs
         run: |
           sphinx-build -b html . docs -c .
 
-      - name: Add .nojekyll to prevent Jekyll processing
+      - name: Disable Jekyll (create .nojekyll)
         run: |
           touch docs/.nojekyll
 
-      - name: Commit built docs to main
+      - name: Commit and Push Built Docs
         run: |
           git config --global user.name "github-actions"
           git config --global user.email "actions@github.com"
           git add -f docs
           git commit -m "Build and update Sphinx docs"
-          git push
+          git push origin main
