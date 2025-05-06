@@ -18,31 +18,35 @@ jobs:
 
     - name: Save Issue Body to File
       run: |
-        echo "${{ github.event.issue.body }}" > issue_body.txt
+        echo "${{ github.event.issue.body }}" > issue_body.yml
 
-    - name: Parse and Update YAML
+    - name: Parse Issue and Export Variables
+      id: vars
       run: |
         python3 parse_issue.py
+        echo "REPO_URL=$(yq '.repo_url' issue_body.yml)" >> $GITHUB_ENV
+        echo "TITLE=$(yq '.title' issue_body.yml)" >> $GITHUB_ENV
+        echo "DESCRIPTION=$(yq '.description' issue_body.yml)" >> $GITHUB_ENV
+        echo "THUMBNAIL=$(yq '.thumbnail' issue_body.yml)" >> $GITHUB_ENV
+        echo "ROOT_PATH=$(yq '.root_path' issue_body.yml)" >> $GITHUB_ENV
 
     - name: Clone new Cookbook Repository
+      run: git clone $REPO_URL $ROOT_PATH
+
+    - name: Install Sphinx and Plugins
       run: |
-          git clone $REPO_URL $ROOT_PATH
+        pip install sphinx myst-parser nbsphinx sphinx-book-theme \
+                    sphinx-design myst-nb pyyaml ghp-import
 
-    - name: Install Sphinx
-      run: pip install sphinx myst-parser nbsphinx sphinx-book-theme sphinx-design myst-nb pyyaml ghp-import
-
-    - name: Build HTML from Cookbook (into /docs for GitHub Pages)
+    - name: Build Cookbook HTML into docs/$ROOT_PATH
       run: |
-        sphinx-build -b html . docs -c .
-    
+        sphinx-build -b html $ROOT_PATH docs/$ROOT_PATH -c $ROOT_PATH
 
-    - name: Commit updated YAML and Built HTML
+    - name: Commit and Push Built HTML and Gallery Update
       run: |
-        git config --global user.name 'github-actions'
-        git config --global user.email 'actions@github.com'
-        git add notebook_gallery.yaml
-        git add -f docs
-        git commit -m "Added new cookbook and built HTML"
-        git push -f origin main
-
-
+        git config --global user.name "github-actions"
+        git config --global user.email "actions@github.com"
+        git add -f docs/$ROOT_PATH
+        git add -f notebook_gallery.yaml
+        git commit -m "Added new cookbook: $ROOT_PATH"
+        git push origin main
