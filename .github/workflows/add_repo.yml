@@ -33,7 +33,7 @@ jobs:
 
     - name: Build HTML from Cookbook (into /docs for GitHub Pages)
       run: |
-        sphinx-build -b html $ROOT_PATH docs -c .
+        sphinx-build -b html . docs -c .
     
 
     - name: Commit updated YAML and Built HTML
