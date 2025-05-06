@@ -26,14 +26,14 @@ jobs:
 
     - name: Clone new Cookbook Repository
       run: |
-          git clone $REPO_URL cookbooks/$ROOT_PATH
+          git clone $REPO_URL $ROOT_PATH
 
     - name: Install Sphinx
       run: pip install sphinx myst-parser nbsphinx sphinx-book-theme sphinx-design myst-nb pyyaml ghp-import
 
     - name: Build HTML from Cookbook (with global conf.py)
       run: |
-        sphinx-build -b html cookbooks/$ROOT_PATH _build/html/$ROOT_PATH -c .
+        sphinx-build -b html $ROOT_PATH _build/html/$ROOT_PATH -c .
 
 
     - name: Commit updated YAML and Built HTML
