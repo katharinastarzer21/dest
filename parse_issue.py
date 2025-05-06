@@ -1,17 +1,14 @@
 import yaml
 
-# Lade YAML
 with open('notebook_gallery.yaml') as f:
     gallery = yaml.safe_load(f)
 
-# Lese Issue Body
 with open('issue_body.txt') as f:
     body = f.read()
 
 print("Full Issue Body:")
 print(body)
 
-# Zeilenweise parsen mit Markdown Support
 fields = {
     "Repository URL": "",
     "Cookbook Title": "",
@@ -24,7 +21,7 @@ lines = body.splitlines()
 
 current_label = None
 for line in lines:
-    line = line.strip().lstrip("#").strip()  # Entferne Markdown #
+    line = line.strip().lstrip("#").strip()  
     if line in fields:
         current_label = line
     elif current_label and line:
