@@ -18,17 +18,12 @@ jobs:
 
     - name: Save Issue Body to File
       run: |
-        echo "${{ github.event.issue.body }}" > issue_body.yml
+        echo "${{ github.event.issue.body }}" > issue_body.txt
 
     - name: Parse Issue and Export Variables
       id: vars
       run: |
         python3 parse_issue.py
-        echo "REPO_URL=$(yq '.repo_url' issue_body.yml)" >> $GITHUB_ENV
-        echo "TITLE=$(yq '.title' issue_body.yml)" >> $GITHUB_ENV
-        echo "DESCRIPTION=$(yq '.description' issue_body.yml)" >> $GITHUB_ENV
-        echo "THUMBNAIL=$(yq '.thumbnail' issue_body.yml)" >> $GITHUB_ENV
-        echo "ROOT_PATH=$(yq '.root_path' issue_body.yml)" >> $GITHUB_ENV
 
     - name: Clone new Cookbook Repository
       run: git clone $REPO_URL $ROOT_PATH
