@@ -42,6 +42,11 @@ jobs:
       run: |
         sphinx-build -b html $ROOT_PATH docs/$ROOT_PATH -c $ROOT_PATH
 
+    - name: Rename README.html to index.html (for GitHub Pages)
+      run: |
+          mv docs/$ROOT_PATH/README.html docs/$ROOT_PATH/index.html || true
+      
+
     - name: Commit and Push Built HTML and Gallery Update
       run: |
         git config --global user.name "github-actions"
