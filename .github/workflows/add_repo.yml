@@ -10,66 +10,36 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout main repository
-        uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - name: Install dependencies
-        run: pip install pyyaml sphinx myst-parser nbsphinx sphinx-book-theme myst-nb sphinx-design ghp-import
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
 
-      - name: Save Issue Body to File
+      - name: Create issue_body.txt
         run: echo "${{ github.event.issue.body }}" > issue_body.txt
 
-      - name: Parse issue and export variables
-        id: parse
+      - name: Install dependencies
+        run: pip install pyyaml
+
+      - name: Parse issue and update gallery
+        run: python scripts/parse_issue.py
+        env:
+          GITHUB_ENV: ${{ github.env }}
+
+      - name: Clone submitted repo
+        run: git clone $REPO_URL submitted_repo
+
+      - name: Build HTML with Sphinx
         run: |
-          echo "REPO_URL=$(grep repo_url issue_body.txt | cut -d ':' -f2- | xargs)" >> $GITHUB_ENV
-          echo "ROOT_PATH=$(grep root_path issue_body.txt | cut -d ':' -f2- | xargs)" >> $GITHUB_ENV
-          echo "TITLE=$(grep title issue_body.txt | cut -d ':' -f2- | xargs)" >> $GITHUB_ENV
-          echo "DESCRIPTION=$(grep description issue_body.txt | cut -d ':' -f2- | xargs)" >> $GITHUB_ENV
-          echo "THUMBNAIL=$(grep thumbnail issue_body.txt | cut -d ':' -f2- | xargs)" >> $GITHUB_ENV
+          mkdir -p _site/$ROOT_PATH
+          pip install -r requirements.txt || echo "no requirements.txt"
+          sphinx-build -b html submitted_repo/$ROOT_PATH _site/$ROOT_PATH
 
-      - name: Clone the new Cookbook
-        run: git clone $REPO_URL $ROOT_PATH
-
-      - name: Verify conf.py exists
-        run: |
-          if [ ! -f "$ROOT_PATH/conf.py" ]; then
-            echo "❌ conf.py not found in $ROOT_PATH"
-            exit 1
-          fi
-
-      - name: Build HTML with Sphinx into docs/$ROOT_PATH
-        run: sphinx-build -b html $ROOT_PATH docs/$ROOT_PATH -c $ROOT_PATH
-
-      - name: Rename README.html to index.html
-        run: |
-          if [ -f docs/$ROOT_PATH/README.html ]; then
-            mv docs/$ROOT_PATH/README.html docs/$ROOT_PATH/index.html
-          fi
-
-      - name: Add .nojekyll
-        run: touch docs/.nojekyll
-
-      - name: Update notebook_gallery.yaml
-        run: |
-          echo "$ROOT_PATH:" >> notebook_gallery.yaml
-          echo "  title: $TITLE" >> notebook_gallery.yaml
-          echo "  branch: main" >> notebook_gallery.yaml
-          echo "  root_path: $ROOT_PATH" >> notebook_gallery.yaml
-          echo "  description: $DESCRIPTION" >> notebook_gallery.yaml
-          echo "  thumbnail: $THUMBNAIL" >> notebook_gallery.yaml
-          echo "  url: https://katharinastarzer21.github.io/DestinE/$ROOT_PATH/index.html" >> notebook_gallery.yaml
-
-      - name: Commit and Push
-        run: |
-          git config --global user.name "github-actions"
-          git config --global user.email "actions@github.com"
-          git add -f docs/$ROOT_PATH
-          git add -f docs/.nojekyll
-          git add -f notebook_gallery.yaml
-          if git diff --cached --quiet; then
-            echo "No changes to commit."
-          else
-            git commit -m "Add new cookbook: $ROOT_PATH"
-            git push
-          fi
+      - name: Upload build as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: cookbook-${{ env.ROOT_PATH }}
+          path: _site/${{ env.ROOT_PATH }}

@@ -25,7 +25,8 @@ jobs:
 
       - name: Build Sphinx HTML into /docs
         run: |
-          sphinx-build -b html . docs -c .
+          sphinx-build -b html docs _site
+
 
       - name: Disable Jekyll (create .nojekyll)
         run: |
