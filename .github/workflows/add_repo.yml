@@ -1,16 +1,16 @@
-name: Add Repository to Gallery
+name: Process New Cookbook Issue
 
 on:
   issues:
-    types: [opened, labeled]
+    types: [opened]
 
 jobs:
-  process-request:
+  handle-new-cookbook:
     if: contains(github.event.issue.labels.*.name, 'add-repo')
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
+      - name: Checkout main repository
         uses: actions/checkout@v4
 
       - name: Set up Python
@@ -18,28 +18,30 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Create issue_body.txt
-        run: echo "${{ github.event.issue.body }}" > issue_body.txt
-
-      - name: Install dependencies
+      - name: Install Python dependencies
         run: pip install pyyaml
 
-      - name: Parse issue and update gallery
-        run: python scripts/parse_issue.py
+      - name: Save issue body to file
+        run: echo "${{ github.event.issue.body }}" > issue_body.txt
+
+      - name: Parse issue and update notebook_gallery.yaml
+        run: python parse_issue.py
         env:
           GITHUB_ENV: ${{ github.env }}
 
-      - name: Clone submitted repo
+      - name: Clone submitted repository
         run: git clone $REPO_URL submitted_repo
 
-      - name: Build HTML with Sphinx
+      - name: Build cookbook with Sphinx
         run: |
           mkdir -p _site/$ROOT_PATH
           pip install -r requirements.txt || echo "no requirements.txt"
           sphinx-build -b html submitted_repo/$ROOT_PATH _site/$ROOT_PATH
 
-      - name: Upload build as artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: cookbook-${{ env.ROOT_PATH }}
-          path: _site/${{ env.ROOT_PATH }}
+      - name: Commit updated notebook_gallery.yaml
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "actions@github.com"
+          git add notebook_gallery.yaml
+          git commit -m "Update notebook_gallery.yaml from issue"
+          git push origin main

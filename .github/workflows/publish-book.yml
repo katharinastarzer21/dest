@@ -1,4 +1,4 @@
-name: Deploy Sphinx to GitHub Pages
+name: Deploy Cookbook Gallery to GitHub Pages
 
 on:
   push:
@@ -7,39 +7,30 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-deploy:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v3
+      - name: Checkout main repository
+        uses: actions/checkout@v4
 
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
-      - name: Install Python Dependencies
-        run: |
-          pip install -r requirements.txt
+      - name: Install Python dependencies
+        run: pip install -r requirements.txt
 
-      - name: Build Sphinx HTML into /docs
+      - name: Build central gallery (dashboard, index.rst, etc.)
         run: |
-          sphinx-build -b html docs _site
+          sphinx-build -b html docs _site -c docs
 
+      - name: Disable Jekyll (allow folders like _static)
+        run: touch _site/.nojekyll
 
-      - name: Disable Jekyll (create .nojekyll)
-        run: |
-          touch docs/.nojekyll
-
-      - name: Commit and Push Built Docs
-        run: |
-          git config --global user.name "github-actions"
-          git config --global user.email "actions@github.com"
-          git add -f docs
-          if git diff --cached --quiet; then
-            echo "No changes to commit"
-          else
-            git commit -m "Build and update Sphinx docs"
-            git push origin main
-          fi
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: _site
