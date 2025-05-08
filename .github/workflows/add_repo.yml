@@ -2,7 +2,7 @@ name: Process New Cookbook Issue
 
 on:
   issues:
-    types: [opened]
+    types: [opened,labeled]
 
 jobs:
   handle-new-cookbook:
