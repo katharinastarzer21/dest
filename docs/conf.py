@@ -22,10 +22,6 @@ else:
         "sphinx_design",
     ]
 
-# Fix stemming error in GitHub Actions
-html_search_language = "en"
-html_search_options = {"type": "default"}
-
 # -- Project information -----------------------------------------------------
 project = 'Jupyter Notebook Gallery'
 copyright = '2024, Destination Earth Data Lake'
@@ -84,3 +80,8 @@ html_theme_options = {
 
 # Entry point for Sphinx
 master_doc = 'index'
+
+
+# Fix stemming error in GitHub Actions
+html_search_language = "en"
+html_search_options = {"type": "default"}
