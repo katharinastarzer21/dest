@@ -83,5 +83,4 @@ master_doc = 'index'
 
 
 # Fix stemming error in GitHub Actions
-html_search_language = "en"
-html_search_options = {"type": "default"}
+html_search = False
