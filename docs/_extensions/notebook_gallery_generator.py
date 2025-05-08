@@ -34,44 +34,27 @@ def build_from_repos(repos):
     
 
 def main(app):
+    import pathlib
+
+    srcdir = pathlib.Path(app.srcdir)
+    confdir = pathlib.Path(app.confdir)
+
     # read main page content
-    main_content = ""
-    with open("main.md") as fid:
-        for line in fid:
-            main_content += line
-    main_content += "\n \n"
+    main_md_path = srcdir / "main.md"
+    main_content = main_md_path.read_text() + "\n\n"
 
     # get repositories to be included in gallery
-    with open("notebook_gallery.yaml") as fid:
+    gallery_path = confdir.parent / "notebook_gallery.yaml"
+    with gallery_path.open() as fid:
         config = load(fid, Loader=Loader)
-    
+
     grid = build_from_repos(config["domains"])
-
     main_content += grid
-    if pathlib.Path(f"index.md").is_file():
-        pathlib.Path(f"index.md").unlink()
-    pathlib.Path(f"index.md").write_text(main_content)
-   
 
-    # repo_dicts = generate_repo_dicts(all_items)
-
-    # title = "Notebook Gallery"
-
-    # subtext = ""
-    # with open("notebook_gallery_intro.md") as fid:
-    #     for line in fid:
-    #         subtext = subtext + line
-
-    # submit_btn_link = "https://projectpythia.org/cookbook-guide.html"
-    # submit_btn_txt = "How can I create a new Cookbook?"
-    # menu_html = generate_menu(
-    #     repo_dicts, submit_btn_txt=submit_btn_txt, submit_btn_link=submit_btn_link
-    # )
-
-    # build_from_repos(
-    #     repo_dicts, "index", title=title, subtext=subtext, menu_html=menu_html
-    # )
-    pass
+    index_path = srcdir / "index.md"
+    if index_path.is_file():
+        index_path.unlink()
+    index_path.write_text(main_content)
 
 def setup(app):
     app.connect("builder-inited", main)
