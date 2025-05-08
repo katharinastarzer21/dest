@@ -105,4 +105,4 @@ myst_url_schemes = ["http", "https", "mailto"]
 nb_execution_mode = 'off'
 myst_heading_anchors = 3
 
-master_doc = 'README' 
+master_doc = 'index' 
