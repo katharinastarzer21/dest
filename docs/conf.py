@@ -4,10 +4,14 @@ import os
 import sys
 import pathlib
 
+# -- Path setup ----------------------------------------------------------------
+
 # Make _extensions importable
 sys.path.insert(0, os.path.abspath("_extensions"))
 
-# -- Load notebook_gallery_generator only when building docs/
+# -- Conditional Extension Loading --------------------------------------------
+
+# Load notebook_gallery_generator only when building the central docs/ page
 if pathlib.Path(__file__).parent.resolve().name == "docs":
     extensions = [
         "sphinx.ext.githubpages",
@@ -22,12 +26,12 @@ else:
         "sphinx_design",
     ]
 
-# -- Project information -----------------------------------------------------
+# -- Project information -------------------------------------------------------
 project = 'Jupyter Notebook Gallery'
 copyright = '2024, Destination Earth Data Lake'
 author = 'Christoph Reimer <christoph.reimer@eodc.eu>'
 
-# -- General configuration ---------------------------------------------------
+# -- General configuration -----------------------------------------------------
 myst_enable_extensions = [
     "amsmath",
     "colon_fence",
@@ -42,13 +46,13 @@ nb_execution_mode = 'off'
 
 source_suffix = {
     ".ipynb": "myst-nb",
-    ".myst": "myst-nb"
+    ".myst": "myst-nb",
 }
 
 templates_path = ['_templates']
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store', "**/.git", ".pixi**"]
 
-# -- HTML output -------------------------------------------------------------
+# -- HTML output configuration -------------------------------------------------
 html_theme = 'pydata_sphinx_theme'
 html_static_path = ['_static']
 html_css_files = ['custom.css']
@@ -78,9 +82,6 @@ html_theme_options = {
     ],
 }
 
-# Entry point for Sphinx
+# -- Entry point for Sphinx ----------------------------------------------------
 master_doc = 'index'
 
-
-# Fix stemming error in GitHub Actions
-html_search = False
