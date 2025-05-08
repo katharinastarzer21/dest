@@ -6,3 +6,4 @@ sphinx-design
 myst-nb
 pyyaml
 ghp-import
+snowballstemmer
