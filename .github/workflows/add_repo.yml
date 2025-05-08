@@ -36,7 +36,11 @@ jobs:
         run: |
           mkdir -p _site/$ROOT_PATH
           pip install -r requirements.txt || echo "no requirements.txt"
-          sphinx-build -b html submitted_repo/$ROOT_PATH _site/$ROOT_PATH
+          # Falls kein index.md vorhanden ist, aber ein README.md:
+          if [ -f submitted_repo/README.md ] && [ ! -f submitted_repo/index.md ]; then
+            cp submitted_repo/README.md submitted_repo/index.md
+          fi
+          sphinx-build -b html submitted_repo _site/$ROOT_PATH -c docs
 
       - name: Commit updated notebook_gallery.yaml
         run: |
