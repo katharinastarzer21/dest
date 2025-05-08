@@ -12,8 +12,27 @@
 import os
 import shutil
 import sys
+import pathlib
+
+# Stelle sicher, dass _extensions importierbar ist
+sys.path.insert(0, os.path.abspath("_extensions"))
+
+# Grundlegende Sphinx Extensions
+extensions = [
+    "myst_parser",
+    "myst_nb",
+    "sphinx_design",
+    # weitere, die du nutzt...
+]
+
+if pathlib.Path(__file__).parent.resolve().name == "docs":
+    extensions.append("notebook_gallery_generator")
+
 
 sys.path.insert(0, os.path.abspath("_extensions"))
+
+if pathlib.Path(__file__).parent.resolve().name == "docs":
+    extensions.append("notebook_gallery_generator")
 
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
@@ -34,6 +53,8 @@ extensions = [
     "sphinx_design",
     "notebook_gallery_generator",
 ]
+
+
 
 myst_enable_extensions = [
     "amsmath",
