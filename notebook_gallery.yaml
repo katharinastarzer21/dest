@@ -26,3 +26,10 @@ domains:
       \ their applications \nand apply on the DestinE Data Lake data.\n"
     thumbnail: https://platform.destine.eu/wp-content/uploads/2024/03/hook-de-01.jpg
     url: https://destination-earth.github.io/DestinE-DataLake-Lab/HOOK/README.html
+  PROBE:
+    title: New Cookbook
+    branch: main
+    root_path: PROBE
+    description: about tests
+    thumbnail: _No response_
+    url: https://katharinastarzer21.github.io/DestinE/PROBE/index.html
