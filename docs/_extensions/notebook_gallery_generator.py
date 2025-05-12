@@ -44,11 +44,9 @@ def main(app):
         print("Skipping notebook gallery generatorno main.md found.")
         return
     
-    # read main page content
     main_md_path = srcdir / "main.md"
     main_content = main_md_path.read_text() + "\n\n"
 
-    # get repositories to be included in gallery
     gallery_path = confdir.parent / "notebook_gallery.yaml"
     with gallery_path.open() as fid:
         config = load(fid, Loader=Loader)
