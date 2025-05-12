@@ -59,4 +59,12 @@ about tests
 testing automatisation
 :::
 
+
+:::{grid-item-card} My awesome Cookbook
+:shadow: md
+:link: https://katharinastarzer21.github.io/DestinE/BSPTEST/index.html
+:img-top: https://github.com/destination-earth/DestinE-DataLake-Lab/blob/main/img/EUMETSAT-icon.png
+test for automatisation
+:::
+
 ::::

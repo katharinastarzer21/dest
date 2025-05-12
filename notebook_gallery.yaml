@@ -40,3 +40,10 @@ domains:
     description: testing automatisation
     thumbnail: https://github.com/katharinastarzer21/repository_bsp/blob/main/STACK_test/img/DEDL_Dask_multicloud.png
     url: https://katharinastarzer21.github.io/DestinE/COOKBOOKBSP/index.html
+  BSPTEST:
+    title: My awesome Cookbook
+    branch: main
+    root_path: BSPTEST
+    description: test for automatisation
+    thumbnail: https://github.com/destination-earth/DestinE-DataLake-Lab/blob/main/img/EUMETSAT-icon.png
+    url: https://katharinastarzer21.github.io/DestinE/BSPTEST/index.html
