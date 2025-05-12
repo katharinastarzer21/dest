@@ -37,15 +37,14 @@ jobs:
       - name: Rebuild index.md from gallery config
         run: sphinx-build -b html docs _temp_site -c docs
 
-      - name: Prepare submitted repo
+      - name: Build submitted repo with Sphinx
         run: |
-          # Root-Pfad sicherstellen
-          mkdir -p submitted_repo/$ROOT_PATH
-          # README als index.md kopieren, falls nötig
           if [ -f submitted_repo/README.md ] && [ ! -f submitted_repo/index.md ]; then
             cp submitted_repo/README.md submitted_repo/index.md
           fi
-
+          mkdir -p _site/$ROOT_PATH
+          sphinx-build -b html submitted_repo _site/$ROOT_PATH -c docs
+    
       - name: Commit updated files
         run: |
             git config --global user.name "github-actions"
@@ -53,9 +52,8 @@ jobs:
             git add notebook_gallery.yaml docs/index.md
             git commit -m "Update notebook_gallery.yaml and index.md from issue" || echo "No changes to commit"
             git push origin main
-
-      - name: Copy temp gallery build to _site
+    
+      - name: Copy temp gallery build to _site root
         run: |
-          rm -rf _site
-          mv _temp_site _site
+          cp -r _temp_site/* _site/
         
