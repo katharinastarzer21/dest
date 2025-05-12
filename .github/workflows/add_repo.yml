@@ -2,7 +2,7 @@ name: Process New Cookbook Issue
 
 on:
   issues:
-    types: [opened,labeled]
+    types: [opened, labeled]
 
 jobs:
   handle-new-cookbook:
@@ -18,11 +18,10 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Install Python dependencies
-        run: pip install pyyaml
-
-      - name: Install all required Python packages
-        run: pip install -r requirements.txt
+      - name: Install required Python packages
+        run: |
+          pip install -r requirements.txt
+          pip install pyyaml
 
       - name: Save issue body to file
         run: echo "${{ github.event.issue.body }}" > issue_body.txt
@@ -35,15 +34,14 @@ jobs:
       - name: Clone submitted repository
         run: git clone $REPO_URL submitted_repo
 
-      - name: Build cookbook with Sphinx
+      - name: Prepare submitted repo
         run: |
-          mkdir -p _site/$ROOT_PATH
-          pip install -r requirements.txt || echo "no requirements.txt"
-          # Falls kein index.md vorhanden ist, aber ein README.md:
+          # Root-Pfad sicherstellen
+          mkdir -p submitted_repo/$ROOT_PATH
+          # README als index.md kopieren, falls nötig
           if [ -f submitted_repo/README.md ] && [ ! -f submitted_repo/index.md ]; then
             cp submitted_repo/README.md submitted_repo/index.md
           fi
-          sphinx-build -b html submitted_repo _site/$ROOT_PATH -c docs
 
       - name: Commit updated notebook_gallery.yaml
         run: |
