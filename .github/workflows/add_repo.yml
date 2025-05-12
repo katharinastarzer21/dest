@@ -34,6 +34,9 @@ jobs:
       - name: Clone submitted repository
         run: git clone $REPO_URL submitted_repo
 
+      - name: Rebuild index.md from gallery config
+        run: sphinx-build -b html docs _temp_site -c docs
+
       - name: Prepare submitted repo
         run: |
           # Root-Pfad sicherstellen
