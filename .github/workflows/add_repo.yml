@@ -46,10 +46,11 @@ jobs:
             cp submitted_repo/README.md submitted_repo/index.md
           fi
 
-      - name: Commit updated notebook_gallery.yaml
+      - name: Commit updated files
         run: |
-          git config --global user.name "github-actions"
-          git config --global user.email "actions@github.com"
-          git add notebook_gallery.yaml
-          git commit -m "Update notebook_gallery.yaml from issue"
-          git push origin main
+            git config --global user.name "github-actions"
+            git config --global user.email "actions@github.com"
+            git add notebook_gallery.yaml docs/index.md
+            git commit -m "Update notebook_gallery.yaml and index.md from issue" || echo "No changes to commit"
+            git push origin main
+        
