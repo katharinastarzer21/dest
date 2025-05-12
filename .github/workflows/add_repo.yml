@@ -34,27 +34,26 @@ jobs:
       - name: Clone submitted repository
         run: git clone $REPO_URL submitted_repo
 
-      - name: Rebuild index.md from gallery config
-        run: sphinx-build -b html docs _temp_site -c docs
-
-      - name: Build submitted repo with Sphinx
+      - name: Prepare submitted repo
         run: |
           if [ -f submitted_repo/README.md ] && [ ! -f submitted_repo/index.md ]; then
             cp submitted_repo/README.md submitted_repo/index.md
           fi
-          mkdir -p _site/$ROOT_PATH
-          sphinx-build -b html submitted_repo _site/$ROOT_PATH -c docs
-          
-      - name: Merge gallery and cookbooks into _site
-        run: |
-          mkdir -p _site
-          cp -r _gallery_site/* _site/
-          cp -r _cookbooks/* _site/
 
-      - name: Commit updated YAML and index
+      - name: Build submitted cookbook with Sphinx
+        run: |
+          mkdir -p cookbooks/$ROOT_PATH
+          sphinx-build -b html submitted_repo cookbooks/$ROOT_PATH -c docs
+
+      - name: Rebuild gallery index
+        run: |
+          sphinx-build -b html docs _temp_gallery -c docs
+          cp -r _temp_gallery/index.html cookbooks/index.html
+
+      - name: Commit changes
         run: |
           git config --global user.name "github-actions"
           git config --global user.email "actions@github.com"
-          git add notebook_gallery.yaml docs/index.md
-          git commit -m "Update gallery and add new cookbook" || echo "No changes to commit"
+          git add notebook_gallery.yaml docs/index.md cookbooks/
+          git commit -m "Add new cookbook $ROOT_PATH and update gallery" || echo "No changes to commit"
           git push origin main
