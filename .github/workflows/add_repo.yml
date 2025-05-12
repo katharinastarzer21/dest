@@ -53,4 +53,9 @@ jobs:
             git add notebook_gallery.yaml docs/index.md
             git commit -m "Update notebook_gallery.yaml and index.md from issue" || echo "No changes to commit"
             git push origin main
+
+      - name: Copy temp gallery build to _site
+        run: |
+          rm -rf _site
+          mv _temp_site _site
         
