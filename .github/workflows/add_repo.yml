@@ -52,10 +52,3 @@ jobs:
           git add notebook_gallery.yaml
           git commit -m "Update notebook_gallery.yaml from issue"
           git push origin main
-
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: _site
-
