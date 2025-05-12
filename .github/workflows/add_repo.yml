@@ -44,16 +44,17 @@ jobs:
           fi
           mkdir -p _site/$ROOT_PATH
           sphinx-build -b html submitted_repo _site/$ROOT_PATH -c docs
-    
-      - name: Commit updated files
+          
+      - name: Merge gallery and cookbooks into _site
         run: |
-            git config --global user.name "github-actions"
-            git config --global user.email "actions@github.com"
-            git add notebook_gallery.yaml docs/index.md
-            git commit -m "Update notebook_gallery.yaml and index.md from issue" || echo "No changes to commit"
-            git push origin main
-    
-      - name: Copy temp gallery build to _site root
+          mkdir -p _site
+          cp -r _gallery_site/* _site/
+          cp -r _cookbooks/* _site/
+
+      - name: Commit updated YAML and index
         run: |
-          cp -r _temp_site/* _site/
-        
+          git config --global user.name "github-actions"
+          git config --global user.email "actions@github.com"
+          git add notebook_gallery.yaml docs/index.md
+          git commit -m "Update gallery and add new cookbook" || echo "No changes to commit"
+          git push origin main
