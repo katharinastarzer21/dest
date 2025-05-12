@@ -50,6 +50,11 @@ jobs:
           sphinx-build -b html docs _temp_gallery -c docs
           cp -r _temp_gallery/index.html cookbooks/index.html
 
+      - name: Merge gallery and cookbooks for deployment
+        run: |
+            mkdir -p _site
+            cp -r _temp_gallery/* _site/        
+
       - name: Commit changes
         run: |
           git config --global user.name "github-actions"
