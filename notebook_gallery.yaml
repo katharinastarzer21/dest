@@ -33,3 +33,10 @@ domains:
     description: about tests
     thumbnail: _No response_
     url: https://katharinastarzer21.github.io/DestinE/PROBE/index.html
+  COOKBOOKBSP:
+    title: tests_Notebooks
+    branch: main
+    root_path: COOKBOOKBSP
+    description: testing automatisation
+    thumbnail: https://github.com/katharinastarzer21/repository_bsp/blob/main/STACK_test/img/DEDL_Dask_multicloud.png
+    url: https://katharinastarzer21.github.io/DestinE/COOKBOOKBSP/index.html

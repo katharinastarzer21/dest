@@ -51,4 +51,12 @@ and apply on the DestinE Data Lake data.
 about tests
 :::
 
+
+:::{grid-item-card} tests_Notebooks
+:shadow: md
+:link: https://katharinastarzer21.github.io/DestinE/COOKBOOKBSP/index.html
+:img-top: https://github.com/katharinastarzer21/repository_bsp/blob/main/STACK_test/img/DEDL_Dask_multicloud.png
+testing automatisation
+:::
+
 ::::
