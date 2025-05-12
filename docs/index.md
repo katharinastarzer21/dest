@@ -1,10 +1,13 @@
-# DestinE Data Lake
-## Notebook Gallery
+# Welcome to the DEDL Notebook Gallery
 
-The DEDL notebook gallery provides an overview on curated Jupyter notebooks developed for various use cases.
+This gallery showcases curated Jupyter notebooks related to the Destination Earth Data Lake.
 
-How do I add my notebooks to the gallery or contribute to exisiting notebooks? Please see the to the DEDL contribution guide for more details.
- 
+Each notebook (or "cookbook") demonstrates a specific use case or service.
+
+Below you can explore the available notebooks:
+
+
+
 
 ::::{grid} 2
 :gutter: 3
@@ -38,6 +41,14 @@ A DestinE Data Lake service providing high level pre-defined and user-defined
 functions (conceptually like FaaS) that users can invoke from their applications 
 and apply on the DestinE Data Lake data.
 
+:::
+
+
+:::{grid-item-card} New Cookbook
+:shadow: md
+:link: https://katharinastarzer21.github.io/DestinE/PROBE/index.html
+:img-top: _No response_
+about tests
 :::
 
 ::::
