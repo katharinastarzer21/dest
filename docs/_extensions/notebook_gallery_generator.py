@@ -39,6 +39,11 @@ def main(app):
     srcdir = pathlib.Path(app.srcdir)
     confdir = pathlib.Path(app.confdir)
 
+    main_md_path = srcdir / "main.md"
+    if not main_md_path.exists():
+        print("Skipping notebook gallery generatorno main.md found.")
+        return
+    
     # read main page content
     main_md_path = srcdir / "main.md"
     main_content = main_md_path.read_text() + "\n\n"
