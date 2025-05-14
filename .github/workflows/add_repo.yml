@@ -34,33 +34,41 @@ jobs:
       - name: Clone submitted repository
         run: git clone $REPO_URL submitted_repo
 
-      - name: Prepare submitted repo
+      - name: Prepare submitted repo (generate index.md with ToC)
         run: |
           if [ -f submitted_repo/README.md ] && [ ! -f submitted_repo/index.md ]; then
             cp submitted_repo/README.md submitted_repo/index.md
           fi
 
+          echo -e "\n\n```{toctree}\n:maxdepth: 2\n:caption: Inhalt\n" >> submitted_repo/index.md
+
+          find submitted_repo -type f \( -name "*.md" -o -name "*.ipynb" \) \
+            | grep -v "index.md" \
+            | sed 's|submitted_repo/||' \
+            | sed 's|\.[^.]*$||' >> submitted_repo/index.md
+
+          echo -e "```" >> submitted_repo/index.md
+
       - name: Build submitted cookbook with Sphinx
         run: |
           mkdir -p cookbooks/$ROOT_PATH
-          sphinx-build -b html submitted_repo cookbooks/$ROOT_PATH -c docs
+          sphinx-build -b html submitted_repo cookbooks/$ROOT_PATH
 
       - name: Rebuild gallery index
         run: |
-          sphinx-build -b html docs _temp_gallery -c docs
+          sphinx-build -b html . _temp_gallery
           cp -r _temp_gallery/index.html cookbooks/index.html
 
       - name: Merge gallery and cookbooks for deployment
         run: |
-              mkdir -p _site
-              cp -r _temp_gallery/* _site/
-              cp -r cookbooks/* _site/
-             
+          mkdir -p _site
+          cp -r _temp_gallery/* _site/
+          cp -r cookbooks/* _site/
 
       - name: Commit changes
         run: |
           git config --global user.name "github-actions"
           git config --global user.email "actions@github.com"
-          git add notebook_gallery.yaml docs/index.md cookbooks/
+          git add notebook_gallery.yaml index.md cookbooks/
           git commit -m "Add new cookbook $ROOT_PATH and update gallery" || echo "No changes to commit"
           git push origin main
