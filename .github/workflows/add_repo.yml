@@ -52,7 +52,8 @@ jobs:
       - name: Build submitted cookbook with Sphinx
         run: |
           mkdir -p cookbooks/$ROOT_PATH
-          sphinx-build -b html submitted_repo cookbooks/$ROOT_PATH
+          sphinx-build -b html submitted_repo cookbooks/$ROOT_PATH -c .
+
 
       - name: Rebuild gallery index
         run: |
