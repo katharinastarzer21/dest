@@ -47,3 +47,10 @@ domains:
     description: test for automatisation
     thumbnail: https://github.com/destination-earth/DestinE-DataLake-Lab/blob/main/img/EUMETSAT-icon.png
     url: https://katharinastarzer21.github.io/dest/BSPTEST/README.html
+  VERSUCH:
+    title: my lovely cookbook
+    branch: main
+    root_path: VERSUCH
+    description: testing
+    thumbnail: _No response_
+    url: https://katharinastarzer21.github.io/dest/VERSUCH/index.html
