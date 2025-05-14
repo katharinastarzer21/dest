@@ -9,10 +9,16 @@ sys.path.insert(0, os.path.abspath("_extensions"))
 
 
 extensions = [
-    "sphinx.ext.githubpages",  # Generiert .nojekyll für GitHub Pages
-    "myst_nb",                 # Für Markdown + Jupyter Notebooks (Myst-NB)
-    "sphinx_design",           # Für schöne UI-Elemente (Tabs, Buttons, etc.)
+    "myst_nb",
+    "sphinx.ext.githubpages",
+    "sphinx_design",
 ]
+
+source_suffix = {
+    ".ipynb": "myst-nb",
+    ".myst": "myst-nb",
+    ".md": "markdown",  # 👈 notwendig für .md-Dateien
+}
 
 # Aktiviere diese Erweiterung nur, wenn die Umgebungsvariable GALLERY_BUILD gesetzt ist.
 # → Das wird im zentralen Build-Workflow gemacht:
