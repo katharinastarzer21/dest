@@ -53,8 +53,6 @@ exclude_patterns = [
     '.pixi*',
 ]
 
-source_suffix = { '.md': 'markdown' }
-
 html_theme = 'pydata_sphinx_theme'
 
 # Optional: eigene statische Ressourcen (CSS, Bilder)
