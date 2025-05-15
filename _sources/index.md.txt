@@ -7,8 +7,6 @@ Each notebook (or "cookbook") demonstrates a specific use case or service.
 Below you can explore the available notebooks:
 
 
-
-
 ::::{grid} 2
 :gutter: 3
 
