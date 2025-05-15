@@ -12,7 +12,6 @@ extensions = [
     "myst_nb",
     "sphinx.ext.githubpages",
     "sphinx_design",
-    "myst_parser",
 ]
 
 # Aktiviere diese Erweiterung nur, wenn die Umgebungsvariable GALLERY_BUILD gesetzt ist.
