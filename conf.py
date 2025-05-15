@@ -53,6 +53,7 @@ exclude_patterns = [
     '.pixi*',
 ]
 
+source_suffix = { '.md': 'markdown' }
 
 html_theme = 'pydata_sphinx_theme'
 
@@ -88,4 +89,5 @@ html_theme_options = {
 }
 
 
-master_doc = 'index'
+root_doc = 'index'
+
