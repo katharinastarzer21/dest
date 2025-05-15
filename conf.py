@@ -12,13 +12,8 @@ extensions = [
     "myst_nb",
     "sphinx.ext.githubpages",
     "sphinx_design",
+    "myst_parser",
 ]
-
-source_suffix = {
-    ".ipynb": "myst-nb",
-    ".myst": "myst-nb",
-    ".md": "markdown",  # 👈 notwendig für .md-Dateien
-}
 
 # Aktiviere diese Erweiterung nur, wenn die Umgebungsvariable GALLERY_BUILD gesetzt ist.
 # → Das wird im zentralen Build-Workflow gemacht:
