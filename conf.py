@@ -45,7 +45,6 @@ nb_execution_mode = 'off'
 # Quelle: Markdown und Notebooks
 source_suffix = {
     ".ipynb": "myst-nb",
-    ".md": "markdown",
     ".myst": "myst-nb",
 }
 
