@@ -42,12 +42,6 @@ myst_heading_anchors = 3
 # Notebooks NICHT ausführen beim Bauen
 nb_execution_mode = 'off'
 
-# Quelle: Markdown und Notebooks
-source_suffix = {
-    ".ipynb": "myst-nb",
-    ".myst": "myst-nb",
-}
-
 # Verzeichnisse für Templates
 templates_path = ['_templates']
 
