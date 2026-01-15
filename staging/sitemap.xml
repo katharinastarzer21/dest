@@ -16,4 +16,7 @@
   <url>
     <loc>http://localhost:3000/stack</loc>
   </url>
+  <url>
+    <loc>http://localhost:3000/cookbook</loc>
+  </url>
 </urlset>
