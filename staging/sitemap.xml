@@ -14,9 +14,6 @@
     <loc>http://localhost:3000/hook</loc>
   </url>
   <url>
-    <loc>http://localhost:3000/second</loc>
-  </url>
-  <url>
     <loc>http://localhost:3000/stack</loc>
   </url>
 </urlset>
