@@ -8,18 +8,18 @@
     <loc>http://localhost:3000/contribute</loc>
   </url>
   <url>
-    <loc>http://localhost:3000/testcookbook</loc>
-  </url>
-  <url>
-    <loc>http://localhost:3000/hook</loc>
+    <loc>http://localhost:3000/stack</loc>
   </url>
   <url>
     <loc>http://localhost:3000/hda</loc>
   </url>
   <url>
-    <loc>http://localhost:3000/stack</loc>
+    <loc>http://localhost:3000/testcookbook</loc>
   </url>
   <url>
     <loc>http://localhost:3000/second</loc>
+  </url>
+  <url>
+    <loc>http://localhost:3000/hook</loc>
   </url>
 </urlset>
